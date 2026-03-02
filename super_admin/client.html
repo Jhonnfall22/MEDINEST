@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin | Client Management</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --admin-primary: #220bef;
+            --bg-light: #f4f7fa;
+            --sidebar-bg: #ffffff;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-muted: #6c757d;
+            --border-color: #e0e0e0;
+            --sidebar-width: 260px;
+            --sidebar-collapsed-width: 80px;
+        }
+
+        [data-bs-theme="dark"] {
+            --bg-light: #0b0e14;
+            --sidebar-bg: #151921;
+            --card-bg: #151921;
+            --text-main: #e1e1e1;
+            --text-muted: #a0a0a0;
+            --border-color: #2d343f;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            transition: all 0.3s ease;
+            margin: 0;
+        }
+
+        /* ===== SIDEBAR FIXES ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--sidebar-bg);
+            height: 100vh;
+            position: fixed;
+            top: 0; left: 0;
+            border-right: 1px solid var(--border-color);
+            z-index: 1050;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .sidebar-brand {
+            padding: 25px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            color: var(--admin-primary);
+            white-space: nowrap;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            padding: 14px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: 0.2s;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--admin-primary);
+            background: rgba(34, 11, 239, 0.08);
+        }
+
+        .nav-link.active { border-right: 4px solid var(--admin-primary); }
+
+        /* COLLAPSED STATE */
+        .sidebar-collapsed { width: var(--sidebar-collapsed-width); }
+        .sidebar-collapsed .sidebar-text, .sidebar-collapsed .brand-text { 
+            opacity: 0; pointer-events: none; 
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .nxl-container {
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .content-collapsed { margin-left: var(--sidebar-collapsed-width); }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .chart-container { position: relative; height: 300px; width: 100%; }
+
+        .theme-toggle {
+            cursor: pointer; width: 40px; height: 40px; border-radius: 10px;
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            color: var(--text-main); display: flex; align-items: center; justify-content: center;
+        }
+
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 991px) {
+            .sidebar { transform: translateX(-100%); width: var(--sidebar-width) !important; }
+            .sidebar.mobile-show { transform: translateX(0); }
+            .nxl-container { margin-left: 0 !important; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <i data-feather="shield" class="me-2"></i>
+            <span class="brand-text">SUPER ADMIN</span>
+        </div>
+        <nav class="nav flex-column">
+            <a class="nav-link" href="index_superadmin.html"><i data-feather="grid"></i> <span class="sidebar-text">Dashboard</span></a>
+            <a class="nav-link active" href="#"><i data-feather="users"></i> <span class="sidebar-text">Clients</span></a>
+            <a class="nav-link" href="clinic.html"><i data-feather="home"></i> <span class="sidebar-text">Clinics</span></a>
+            <hr class="mx-3 my-2" style="opacity: 0.1;">
+            <a class="nav-link text-danger" href="login.html"><i data-feather="log-out"></i> <span class="sidebar-text">Logout</span></a>
+        </nav>
+    </aside>
+
+    <main class="nxl-container" id="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold mb-0">Client Management</h4>
+            <div class="d-flex gap-2">
+                <button class="theme-toggle" id="themeBtn">
+                    <i data-feather="moon" id="themeIcon"></i>
+                </button>
+                <button class="theme-toggle" id="toggleSidebar">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h6 class="fw-bold text-muted mb-0">Monthly Client Registrations</h6>
+                <span class="badge bg-primary-subtle text-primary">Live Data</span>
+            </div>
+            <div class="chart-container">
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="p-4 d-flex justify-content-between align-items-center border-bottom">
+                <h6 class="fw-bold mb-0">Client Database</h6>
+                <div class="input-group input-group-sm" style="width: 250px;">
+                    <input type="text" class="form-control" placeholder="Search ID or Name...">
+                    <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">Client ID</th>
+                            <th>Full Name</th>
+                            <th>Email Address</th>
+                            <th>Status</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ps-4"><span class="badge bg-light text-dark border">CL-001</span></td>
+                            <td class="fw-semibold">Juan Dela Cruz</td>
+                            <td class="text-muted">juan@example.com</td>
+                            <td><span class="badge bg-success-subtle text-success rounded-pill px-3">Active</span></td>
+                            <td class="text-end pe-4">
+                                <button class="btn btn-sm btn-light border"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-sm btn-light border text-danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script>
+        feather.replace();
+
+        const body = document.documentElement;
+        const themeBtn = document.getElementById('themeBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        const sidebar = document.getElementById('sidebar');
+        const content = document.getElementById('main-content');
+        const toggleBtn = document.getElementById('toggleSidebar');
+        let lineChart;
+
+        // --- THEME ENGINE ---
+        function applyTheme(theme) {
+            body.setAttribute('data-bs-theme', theme);
+            localStorage.setItem('admin_theme', theme);
+            
+            // Icon Update
+            themeIcon.outerHTML = theme === 'dark' 
+                ? '<i data-feather="sun" id="themeIcon"></i>' 
+                : '<i data-feather="moon" id="themeIcon"></i>';
+            feather.replace();
+            
+            // Re-draw Chart
+            initChart(theme);
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const newTheme = body.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+        });
+
+        // --- SIDEBAR TOGGLE ---
+        toggleBtn.addEventListener('click', () => {
+            if (window.innerWidth > 991) {
+                sidebar.classList.toggle('sidebar-collapsed');
+                content.classList.toggle('content-collapsed');
+            } else {
+                sidebar.classList.toggle('mobile-show');
+            }
+        });
+
+        // --- CHART ENGINE ---
+        function initChart(theme) {
+            const ctx = document.getElementById('lineChart').getContext('2d');
+            if (lineChart) lineChart.destroy();
+            
+            const isDark = theme === 'dark';
+            const gridColor = isDark ? 'rgba(255,255,255,0.05)' : '#f0f0f0';
+            const textColor = isDark ? '#a0a0a0' : '#6c757d';
+
+            lineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Registrations',
+                        data: [15, 25, 18, 40, 35, 60],
+                        borderColor: '#220bef',
+                        backgroundColor: 'rgba(34, 11, 239, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { 
+                            grid: { color: gridColor },
+                            ticks: { color: textColor }
+                        },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { color: textColor }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize on Load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('admin_theme') || 'light';
+            applyTheme(savedTheme);
+        });
+    </script>
+</body>
+</html>
