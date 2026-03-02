@@ -104,9 +104,6 @@ $rejected_result = $conn->query($rejected_sql);
 </head>
 <body>
 
-<!-- YOUR HTML REMAINS EXACTLY THE SAME -->
-<!-- NO CHANGES BELOW -->
-
 <!-- Sidebar -->
 <div class="sidebar">
     <a href="index_superadmin.php"><i class="fas fa-th-large"></i> Dashboard</a>
@@ -170,8 +167,8 @@ $rejected_result = $conn->query($rejected_sql);
                             {
                                 echo "<tr>";
                                 echo "<td>".$row['clinic_name']."</td>";
-                                echo "<td>".$row['head_doctor']."</td>";
-                                echo "<td>".$row['location']."</td>";
+                                echo "<td>".$row['first_name']." ".$row['last_name']."</td>";
+                                echo "<td>".$row['address']."</td>";
                                 echo "<td>".$row['approved_date']."</td>";
                                 echo "<td><span class='badge bg-success rounded-pill px-3'>Approved</span></td>";
                                 echo "</tr>";
@@ -210,8 +207,8 @@ $rejected_result = $conn->query($rejected_sql);
                             {
                                 echo "<tr>";
                                 echo "<td>".$row['clinic_name']."</td>";
-                                echo "<td>".$row['head_doctor']."</td>";
-                                echo "<td>".$row['location']."</td>";
+                                echo "<td>".$row['first_name']." ".$row['last_name']."</td>";
+                                echo "<td>".$row['address']."</td>";
                                 echo "<td>".$row['rejected_date']."</td>";
                                 echo "<td><span class='badge bg-danger rounded-pill px-3'>Rejected</span></td>";
                                 echo "</tr>";

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="keyword" content="" />
+    <meta name="author" content="flexilecode" />
+    <title>Vet Clinics | Reports</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.ico" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/vendors/css/vendors.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/vendors/css/daterangepicker.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/theme.min.css" />
+
+    <style>
+        .report-card {
+            border-radius: 12px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .report-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .report-table th, .report-table td {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Menu -->
+    <nav class="nxl-navigation">
+        <div class="navbar-wrapper">
+            <div class="m-header">
+                <a href="clinic_dashboard.php" class="b-brand">
+                    <img src="" alt="" class="logo logo-lg" />
+                    <img src="assets/images/logo-abbr.png" alt="" class="logo logo-sm" />
+                </a>
+            </div>
+
+            <div class="navbar-content">
+                <ul class="nxl-navbar">
+                    <li class="nxl-item nxl-caption"><label>Clinic Admin</label></li>
+                    <li class="nxl-item nxl-hasmenu">
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-airplay"></i></span>
+                            <span class="nxl-mtext">Dashboard</span>
+                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+                            <li class="nxl-item"><a class="nxl-link" href="clinic_dashboard.php">Overview</a></li>
+                        </ul>
+                    </li>
+                    <li class="nxl-item nxl-hasmenu">
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-send"></i></span>
+                            <span class="nxl-mtext">Clinic Tools</span>
+                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+                            <li class="nxl-item"><a class="nxl-link" href="message.html">Messages</a></li>
+                        </ul>
+                    </li>
+                    <li class="nxl-item nxl-hasmenu active">
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-file-text"></i></span>
+                            <span class="nxl-mtext">Reports</span>
+                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+                            <li class="nxl-item"><a class="nxl-link" href="clinic_reports.php">View Reports</a></li>
+                        </ul>
+                    </li>
+                    <li class="nxl-item nxl-hasmenu">
+                        <a href="javascript:void(0);" class="nxl-link">
+                            <span class="nxl-micon"><i class="feather-power"></i></span>
+                            <span class="nxl-mtext">Sign out</span>
+                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
+                        </a>
+                        <ul class="nxl-submenu">
+                            <li class="nxl-item"><a class="nxl-link" href="login.html">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="feather-bar-chart-2 fs-4 text-dark"></i>
+                        <h6 class="mt-4 text-dark fw-bolder">Clinic Admin Panel</h6>
+                        <p class="fs-11 my-3 text-dark">View clinic reports and statistics here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="nxl-header">
+        <div class="header-wrapper">
+            <div class="header-left d-flex align-items-center gap-4">
+                <a href="javascript:void(0);" class="nxl-head-mobile-toggler" id="mobile-collapse"></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="nxl-container">
+        <div class="nxl-content">
+            <div class="page-header">
+                <div class="page-header-left d-flex align-items-center">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Reports</h5>
+                    </div>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item">Reports</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="row">
+                    <!-- Daily Appointments -->
+                    <div class="col-md-6">
+                        <div class="report-card">
+                            <div class="report-header">Daily Appointments</div>
+                            <table class="table report-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Client</th>
+                                        <th>Pet</th>
+                                        <th>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>1</td><td>Charlie</td><td>Dog</td><td>9:00 AM</td></tr>
+                                    <tr><td>2</td><td>Mia</td><td>Cat</td><td>10:00 AM</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Pet Vaccinations -->
+                    <div class="col-md-6">
+                        <div class="report-card">
+                            <div class="report-header">Pet Vaccinations</div>
+                            <table class="table report-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Pet</th>
+                                        <th>Owner</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>1</td><td>Charlie</td><td>Owner</td><td>Completed</td></tr>
+                                    <tr><td>2</td><td>Mia</td><td>Family</td><td>Pending</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inventory Report -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="report-card">
+                            <div class="report-header">Inventory Report</div>
+                            <table class="table report-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Item Name</th>
+                                        <th>Category</th>
+                                        <th>Quantity</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>1</td><td>Rabies Vaccine</td><td>Vaccine</td><td>50</td><td><span class="badge bg-success">In Stock</span></td></tr>
+                                    <tr><td>2</td><td>Deworming Tablets</td><td>Medicine</td><td>120</td><td><span class="badge bg-success">In Stock</span></td></tr>
+                                    <tr><td>3</td><td>Syringes</td><td>Supplies</td><td>200</td><td><span class="badge bg-success">In Stock</span></td></tr>
+                                    <tr><td>4</td><td>Bandages</td><td>Supplies</td><td>15</td><td><span class="badge bg-warning text-dark">Low Stock</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Vendors JS -->
+    <script src="assets/vendors/js/vendors.min.js"></script>
+    <script src="assets/vendors/js/daterangepicker.min.js"></script>
+    <script src="assets/vendors/js/apexcharts.min.js"></script>
+    <script src="assets/vendors/js/circle-progress.min.js"></script>
+
+    <!-- Apps Init -->
+    <script src="assets/js/common-init.min.js"></script>
+    <script src="assets/js/dashboard-init.min.js"></script>
+    <script src="assets/js/theme-customizer-init.min.js"></script>
+
+</body>
+
+</html>

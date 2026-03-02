@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Clinic Manager Registration | Vet Clinics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Dashboard Template Assets (SAME AS LOGIN) -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" href="assets/css/theme.min.css">
+
+    <style>
+        body {
+            background: #f6f7fb;
+        }
+
+        .auth-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 15px;
+        }
+
+        .auth-card {
+            max-width: 560px;
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .auth-logo img {
+            max-height: 60px;
+        }
+
+        .form-control {
+            padding: 6px 10px;
+        }
+
+        .btn-register {
+            background-color: #0d6efd;
+            border: none;
+            font-weight: 600;
+        }
+
+        .btn-register:hover {
+            background-color: #0b5ed7;
+        }
+
+        .small-text {
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= AUTH WRAPPER ================= -->
+<div class="auth-wrapper">
+    <div class="card auth-card shadow-sm">
+        <div class="card-body p-4">
+
+            <!-- LOGO -->
+
+            <!-- HEADER TEXT (SAME CONTENT) -->
+            <h4 class="text-center mb-1">Clinic Manager Registration</h4>
+            <p class="text-center text-muted mb-4">
+                Admin Account Setup
+            </p>
+
+            <!-- REGISTRATION FORM (CONTENT UNCHANGED) -->
+            <form>
+
+                <!-- Clinic Name -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Clinic Name</label>
+                    <input type="text" class="form-control" placeholder="Clinic Name" required>
+                </div>
+
+                <!-- Name -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">First Name</label>
+                        <input type="text" class="form-control" placeholder="First Name" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Last Name</label>
+                        <input type="text" class="form-control" placeholder="Last Name" required>
+                    </div>
+                </div>
+
+                <!-- Contact Number (UNCHANGED, EVEN IF TYPE=email BEFORE) -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Contact Number</label>
+                    <input type="email" class="form-control" placeholder="Contact Number" required>
+                </div>
+
+                <!-- Address -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Address</label>
+                    <input type="text" class="form-control" placeholder="Clinic Address" required>
+                </div>
+
+                <!-- Admin Email -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Admin Email</label>
+                    <input type="email" class="form-control" placeholder="admin@clinic.com" required>
+                </div>
+
+                <!-- Password -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Password</label>
+                        <input type="password" class="form-control" placeholder="Password" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Confirm Password</label>
+                        <input type="password" class="form-control" placeholder="Confirm Password" required>
+                    </div>
+                </div>
+
+                <!-- Verification Upload -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Clinic Verification Document</label>
+                    <input type="file" class="form-control" accept="image/*,.pdf" required>
+                    <div class="form-text small-text">
+                        Accepted documents: business permit, clinic license, or government ID (PDF, JPG, PNG)
+                    </div>
+                </div>
+
+                <!-- Terms -->
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" id="terms" required>
+                    <label class="form-check-label small-text" for="terms">
+                        I confirm the information provided is accurate and agree to the
+                        <a href="#" class="text-decoration-none">Terms & Conditions</a>
+                    </label>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn btn-register w-100 text-white">
+                    Register Clinic
+                </button>
+
+            </form>
+
+            <!-- FOOTER -->
+            <p class="text-center mt-4 mb-0 small-text">
+                Already have an account?
+                <a href="login.html" class="fw-semibold text-decoration-none">
+                    Sign in
+                </a>
+            </p>
+
+        </div>
+    </div>
+</div>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="assets/vendors/js/vendors.min.js"></script>
+<script src="assets/js/common-init.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Inventory | Vet Clinics</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.ico" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="assets/vendors/css/vendors.min.css" />
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="assets/css/theme.min.css" />
+</head>
+
+<body>
+
+<!-- ===================== SIDEBAR ===================== -->
+<nav class="nxl-navigation">
+    <div class="navbar-wrapper">
+        <div class="navbar-content">
+            <ul class="nxl-navbar">
+
+                <li class="nxl-item nxl-caption">
+                    <label>Clinic Admin</label>
+                </li>
+
+                <li class="nxl-item">
+                    <a class="nxl-link" href="index.html">
+                        <span class="nxl-micon"><i class="feather-home"></i></span>
+                        <span class="nxl-mtext">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="nxl-item active">
+                    <a class="nxl-link" href="inventory.html">
+                        <span class="nxl-micon"><i class="feather-box"></i></span>
+                        <span class="nxl-mtext">Inventory</span>
+                    </a>
+                </li>
+
+                <li class="nxl-item">
+                    <a class="nxl-link" href="login.html">
+                        <span class="nxl-micon"><i class="feather-power"></i></span>
+                        <span class="nxl-mtext">Logout</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- ===================== END SIDEBAR ===================== -->
+
+
+<!-- ===================== HEADER ===================== -->
+<header class="nxl-header">
+    <div class="header-wrapper">
+        <div class="header-left">
+            <h5 class="mb-0">Inventory Management</h5>
+        </div>
+    </div>
+</header>
+<!-- ===================== END HEADER ===================== -->
+
+
+<!-- ===================== MAIN CONTENT ===================== -->
+<main class="nxl-container">
+    <div class="nxl-content">
+
+        <!-- PAGE HEADER -->
+        <div class="page-header mb-4">
+            <div class="page-header-left">
+                <h5>Clinic Inventory</h5>
+                <p class="text-muted mb-0">Medicines, vaccines, and medical supplies</p>
+            </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="card text-center p-3">
+                    <h6>Total Items</h6>
+                    <h3 class="fw-bold">85</h3>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-center p-3">
+                    <h6>Low Stock</h6>
+                    <h3 class="fw-bold text-warning">6</h3>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-center p-3">
+                    <h6>Out of Stock</h6>
+                    <h3 class="fw-bold text-danger">2</h3>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card text-center p-3">
+                    <h6>New Supplies</h6>
+                    <h3 class="fw-bold text-success">10</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- INVENTORY TABLE -->
+        <div class="card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">Inventory List</h5>
+                <button class="btn btn-primary btn-sm">
+                    <i class="feather-plus"></i> Add Item
+                </button>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Item Name</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Unit</th>
+                            <th>Expiration Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Rabies Vaccine</td>
+                            <td>Vaccine</td>
+                            <td>25</td>
+                            <td>Vials</td>
+                            <td>2026-10-15</td>
+                            <td><span class="badge bg-success">Available</span></td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>Antibiotic Injection</td>
+                            <td>Medicine</td>
+                            <td>5</td>
+                            <td>Boxes</td>
+                            <td>2026-04-20</td>
+                            <td><span class="badge bg-warning">Low Stock</span></td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>Syringes</td>
+                            <td>Supply</td>
+                            <td>0</td>
+                            <td>Packs</td>
+                            <td>-</td>
+                            <td><span class="badge bg-danger">Out of Stock</span></td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>Dog Vitamins</td>
+                            <td>Supplement</td>
+                            <td>40</td>
+                            <td>Bottles</td>
+                            <td>2027-01-10</td>
+                            <td><span class="badge bg-success">Available</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</main>
+<!-- ===================== END MAIN CONTENT ===================== -->
+
+
+<!-- ===================== SCRIPTS ===================== -->
+<script src="assets/vendors/js/vendors.min.js"></script>
+<script src="assets/js/common-init.min.js"></script>
+
+</body>
+</html>
