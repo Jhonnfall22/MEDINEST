@@ -1,8 +1,8 @@
 <?php
 require_once '../config/db.php';
 
-// Fetch clinics
-$query = "SELECT * FROM clinics ORDER BY created_at DESC";
+// Fetch ONLY pending clinics
+$query = "SELECT * FROM clinics WHERE status = 'pending' ORDER BY created_at DESC";
 $result = $conn->query($query);
 $clinics = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 ?>
@@ -252,7 +252,7 @@ $clinics = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 
     function setPreview(containerId, fileName) {
         const container = document.getElementById(containerId);
-        container.innerHTML = ''; // Clear previous
+        container.innerHTML = '';
         if(!fileName) { container.innerHTML = '<div class="text-muted small">No file uploaded</div>'; return; }
         const ext = fileName.split('.').pop().toLowerCase();
         const safeFile = encodeURIComponent(fileName); 

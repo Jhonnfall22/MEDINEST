@@ -160,27 +160,62 @@ body { background:#f6f7fb; }
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 // Leaflet Map
-var dasmaCenter=[14.3294,120.9367];
-var map=L.map('map').setView(dasmaCenter,14);
+const dasmaCenter=[14.3294,120.9367];
+const map=L.map('map').setView(dasmaCenter,14);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
-var marker;
-map.on('click', function(e){var lat=e.latlng.lat,lng=e.latlng.lng;if(lat<14.25||lat>14.40||lng<120.85||lng>121.00){alert("Please select a location within Dasmariñas City only.");return;} setMarker(lat,lng);});
-function setMarker(lat,lng){if(marker) map.removeLayer(marker); marker=L.marker([lat,lng]).addTo(map); map.setView([lat,lng],16); document.getElementById("lat").value=lat; document.getElementById("lng").value=lng;}
-function locateUser(){if(!navigator.geolocation){alert("Geolocation not supported");return;} navigator.geolocation.getCurrentPosition(function(pos){var lat=pos.coords.latitude,lng=pos.coords.longitude;if(lat<14.25||lat>14.40||lng<120.85||lng>121.00){alert("Your location is outside Dasmariñas City.");return;} setMarker(lat,lng);}, function(){alert("Unable to get your location");});}
+let marker;
+map.on('click', function(e){
+    let lat=e.latlng.lat,lng=e.latlng.lng;
+    if(lat<14.25||lat>14.40||lng<120.85||lng>121.00){
+        Swal.fire({icon:'error',title:'Invalid Location',text:'Please select a location within Dasmariñas City only.'});
+        return;
+    }
+    setMarker(lat,lng);
+});
+function setMarker(lat,lng){
+    if(marker) map.removeLayer(marker);
+    marker=L.marker([lat,lng]).addTo(map);
+    map.setView([lat,lng],16);
+    document.getElementById("lat").value=lat;
+    document.getElementById("lng").value=lng;
+}
+function locateUser(){
+    if(!navigator.geolocation){Swal.fire('Error','Geolocation not supported','error'); return;}
+    navigator.geolocation.getCurrentPosition(function(pos){
+        let lat=pos.coords.latitude,lng=pos.coords.longitude;
+        if(lat<14.25||lat>14.40||lng<120.85||lng>121.00){
+            Swal.fire({icon:'error',title:'Outside City',text:'Your location is outside Dasmariñas City.'});
+            return;
+        }
+        setMarker(lat,lng);
+    }, function(){Swal.fire({icon:'error',title:'Error',text:'Unable to get your location'});});
+}
 
 // AJAX form
-document.getElementById('registerForm').addEventListener('submit', function(e){
+document.getElementById('registerForm').addEventListener('submit', async function(e){
     e.preventDefault();
-    var form=document.getElementById('registerForm');
-    var fd=new FormData(form);
+    const form=this;
+    const fd=new FormData(form);
     fd.append('ajax','1');
-    if(!fd.get('lat') || !fd.get('lng')){Swal.fire({icon:'error',title:'Location Required',text:'Please pin your clinic location on the map.'}); return;}
-    fetch('',{method:'POST',body:fd})
-    .then(res=>res.json())
-    .then(data=>{
-        if(data.status==='success'){Swal.fire({icon:'success',title:'Success',text:data.message}).then(()=>{if(data.redirect) window.location.href=data.redirect;});}
-        else Swal.fire({icon:'error',title:'Error',text:data.message});
-    }).catch(err=>{Swal.fire({icon:'error',title:'Error',text:'Something went wrong.'}); console.error(err);});
+
+    if(!fd.get('lat') || !fd.get('lng')){
+        Swal.fire({icon:'error',title:'Location Required',text:'Please pin your clinic location on the map.'});
+        return;
+    }
+
+    try{
+        const res = await fetch('', {method:'POST', body:fd});
+        const data = await res.json();
+        if(data.status==='success'){
+            await Swal.fire({icon:'success',title:'Success',text:data.message});
+            if(data.redirect) window.location.href=data.redirect;
+        } else {
+            Swal.fire({icon:'error',title:'Error',text:data.message});
+        }
+    } catch(err){
+        Swal.fire({icon:'error',title:'Error',text:'Something went wrong.'});
+        console.error(err);
+    }
 });
 </script>
 </body>
