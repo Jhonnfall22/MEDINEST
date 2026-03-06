@@ -1,3 +1,4 @@
+<?php include 'auth_check.php'; ?>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -115,91 +116,7 @@
     <!--! ================================================================ !-->
     <!--! [Start] Navigation Manu !-->
     <!--! ================================================================ !-->
-    <nav class="nxl-navigation">
-    <div class="navbar-wrapper">
-        <div class="m-header">
-          
-        </div>
-
-        <div class="navbar-content">
-            <ul class="nxl-navbar">
-                <li class="nxl-item nxl-caption">
-                    <label>Clinic Admin</label>
-                </li>
-
-                <li class="nxl-item nxl-hasmenu">
-                    <a href="javascript:void(0);" class="nxl-link">
-                        <span class="nxl-micon"><i class="feather-airplay"></i></span>
-                        <span class="nxl-mtext">Dashboard</span>
-                        <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
-                    </a>
-                    <ul class="nxl-submenu">
-                        <li class="nxl-item">
-                            <a class="nxl-link" href="receptionist.html">Receptionist</a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nxl-item nxl-hasmenu">
-                    <a href="javascript:void(0);" class="nxl-link">
-                        <span class="nxl-micon"><i class="feather-send"></i></span>
-                        <span class="nxl-mtext">Clinic Tools</span>
-                        <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
-                    </a>
-                    <ul class="nxl-submenu">
-                        <li class="nxl-item"><a class="nxl-link" href="users.html">Users</a></li>
-                        <li class="nxl-item"><a class="nxl-link" href="message.html">Messages</a></li>
-                        <li class="nxl-item"><a class="nxl-link" href="inventory.html">Inventory</a></li>
-                    </ul>
-                </li>
-
-                <li class="nxl-item nxl-hasmenu">
-                    <a href="javascript:void(0);" class="nxl-link">
-                        <span class="nxl-micon"><i class="feather-users"></i></span>
-                        <span class="nxl-mtext">Clients</span>
-                        <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
-                    </a>
-                    <ul class="nxl-submenu">
-                        <li class="nxl-item"><a class="nxl-link" href="client_list.html">Patient List</a></li>
-                    </ul>
-
-                     <ul class="nxl-submenu">
-                        <li class="nxl-item"><a class="nxl-link" href="report.html">Report</a></li>
-                       
-                    </ul>
-                </li>
-
-               
-
-                <li class="nxl-item nxl-hasmenu">
-                    <a href="javascript:void(0);" class="nxl-link">
-                        <span class="nxl-micon"><i class="feather-power"></i></span>
-                        <span class="nxl-mtext">Sign out</span>
-                        <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
-                    </a>
-
-                    <ul class="nxl-submenu">
-                        <li class="nxl-item">
-                            <a class="nxl-link" href="../auth/logout.php">Logout</a>
-                        </li>
-                    </ul>
-                </li>
-
-                </li>
-            </ul>
-
-            <div class="card text-center">
-                <div class="card-body">
-                    <i class="feather-sunrise fs-4 text-dark"></i>
-                    <h6 class="mt-4 text-dark fw-bolder">Clinic Admin Panel</h6>
-                    <p class="fs-11 my-3 text-dark">
-                        Manage appointments, clients, and clinic records.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
+    <?php include 'partials/sidebar.php'; ?>
 
     <!--! ================================================================ !-->
     <!--! [End]  Navigation Manu !-->

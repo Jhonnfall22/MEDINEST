@@ -1,3 +1,4 @@
+<?php include 'auth_check.php'; ?>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -64,71 +65,7 @@
 
 <body>
     <!-- Navigation Menu -->
-    <nav class="nxl-navigation">
-        <div class="navbar-wrapper">
-            <div class="m-header">
-                <a href="clinic_dashboard.php" class="b-brand">
-                    <img src="" alt="" class="logo logo-lg" />
-                    <img src="assets/images/logo-abbr.png" alt="" class="logo logo-sm" />
-                </a>
-            </div>
-
-            <div class="navbar-content">
-                <ul class="nxl-navbar">
-                    <li class="nxl-item nxl-caption"><label>Clinic Admin</label></li>
-                    <li class="nxl-item nxl-hasmenu">
-                        <a href="javascript:void(0);" class="nxl-link">
-                            <span class="nxl-micon"><i class="feather-airplay"></i></span>
-                            <span class="nxl-mtext">Dashboard</span>
-                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
-                        </a>
-                        <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="receptionist.html">Receptionist</a></li>
-                        </ul>
-                    </li>
-                    <li class="nxl-item nxl-hasmenu">
-                        <a href="javascript:void(0);" class="nxl-link">
-                            <span class="nxl-micon"><i class="feather-send"></i></span>
-                            <span class="nxl-mtext">Clinic Tools</span>
-                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
-                        </a>
-                        <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="message.html">Messages</a></li>
-                        </ul>
-                    </li>
-                    <li class="nxl-item nxl-hasmenu">
-                        <a href="javascript:void(0);" class="nxl-link">
-                            <span class="nxl-micon"><i class="feather-power"></i></span>
-                            <span class="nxl-mtext">Sign out</span>
-                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
-                        </a>
-                        <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="login.html">Logout</a></li>
-                        </ul>
-                    </li>
-                    <li class="nxl-item nxl-hasmenu">
-                        <a href="javascript:void(0);" class="nxl-link">
-                            <span class="nxl-micon"><i class="feather-life-buoy"></i></span>
-                            <span class="nxl-mtext">Help Center</span>
-                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
-                        </a>
-                        <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="clinic_support.php">Support</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="clinic_knowledgebase.php">Knowledge Base</a></li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <div class="card text-center">
-                    <div class="card-body">
-                        <i class="feather-sunrise fs-4 text-dark"></i>
-                        <h6 class="mt-4 text-dark fw-bolder">Clinic Admin Panel</h6>
-                        <p class="fs-11 my-3 text-dark">Manage appointments, clients, and clinic records.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php include 'partials/sidebar.php'; ?>
 
     <!-- Header -->
     <header class="nxl-header">
@@ -180,7 +117,7 @@
                         <h5 class="m-b-10">Dashboard</h5>
                     </div>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                         <li class="breadcrumb-item">Messages</li>
                     </ul>
                 </div>

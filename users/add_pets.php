@@ -1,5 +1,7 @@
-<?php
-require_once "config/db.php";
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once "../config/db.php";
 
 // Only process POST requests
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -10,12 +12,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $clinic = $_POST['clinic'] ?? '';
     $status = 'pending'; // default status
 
+    // Get owner identification
+    $username_reg = $_SESSION['username'] ?? 'Guest';
+    
     // Simple validation
     if($name && $type && $clinic){
-        $stmt = $mysqli->prepare("INSERT INTO pets (name, type, breed, age, clinic, status, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())");
-        $stmt->bind_param("sssiss", $name, $type, $breed, $age, $clinic, $status);
+        $stmt = $conn->prepare("INSERT INTO pets (name, type, breed, age, clinic, status, user, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+        $stmt->bind_param("sssisss", $name, $type, $breed, $age, $clinic, $status, $username_reg);
         if($stmt->execute()){
-            header("Location: mypets.php"); // redirect to mypets.php after registration
+            header("Location: mypets.php"); 
             exit;
         } else {
             die("Error saving pet: " . $stmt->error);

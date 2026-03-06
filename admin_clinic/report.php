@@ -1,3 +1,54 @@
+<?php 
+include 'auth_check.php'; 
+include '../users/config/db.php';
+
+$clinic_id = $_SESSION['clinic_admin_id'];
+
+// Get Search and Filter Parameters
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+$category_filter = isset($_GET['category']) ? trim($_GET['category']) : '';
+
+// Fetch Distinct Categories for Filter
+$cat_stmt = $conn->prepare("SELECT DISTINCT category FROM clinic_inventory WHERE clinic_id = ?");
+$cat_stmt->bind_param("i", $clinic_id);
+$cat_stmt->execute();
+$cat_res = $cat_stmt->get_result();
+$categories = [];
+while ($cat_row = $cat_res->fetch_assoc()) {
+    $categories[] = $cat_row['category'];
+}
+$cat_stmt->close();
+
+// Build Inventory Query
+$sql = "SELECT * FROM clinic_inventory WHERE clinic_id = ?";
+$params = [$clinic_id];
+$types = "i";
+
+if (!empty($search)) {
+    $sql .= " AND item_name LIKE ?";
+    $search_param = "%$search%";
+    $params[] = $search_param;
+    $types .= "s";
+}
+
+if (!empty($category_filter)) {
+    $sql .= " AND category = ?";
+    $params[] = $category_filter;
+    $types .= "s";
+}
+
+$sql .= " ORDER BY quantity ASC";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param($types, ...$params);
+$stmt->execute();
+$inventory_res = $stmt->get_result();
+$inventory_items = [];
+while ($row = $inventory_res->fetch_assoc()) {
+    $inventory_items[] = $row;
+}
+$stmt->close();
+?>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -42,70 +93,7 @@
 
 <body>
     <!-- Navigation Menu -->
-    <nav class="nxl-navigation">
-        <div class="navbar-wrapper">
-            <div class="m-header">
-                <a href="clinic_dashboard.php" class="b-brand">
-                    <img src="" alt="" class="logo logo-lg" />
-                    <img src="assets/images/logo-abbr.png" alt="" class="logo logo-sm" />
-                </a>
-            </div>
-
-            <div class="navbar-content">
-                <ul class="nxl-navbar">
-                    <li class="nxl-item nxl-caption"><label>Clinic Admin</label></li>
-                    <li class="nxl-item nxl-hasmenu">
-                        <a href="javascript:void(0);" class="nxl-link">
-                            <span class="nxl-micon"><i class="feather-airplay"></i></span>
-                            <span class="nxl-mtext">Dashboard</span>
-                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
-                        </a>
-                        <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="clinic_dashboard.php">Overview</a></li>
-                        </ul>
-                    </li>
-                    <li class="nxl-item nxl-hasmenu">
-                        <a href="javascript:void(0);" class="nxl-link">
-                            <span class="nxl-micon"><i class="feather-send"></i></span>
-                            <span class="nxl-mtext">Clinic Tools</span>
-                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
-                        </a>
-                        <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="message.html">Messages</a></li>
-                        </ul>
-                    </li>
-                    <li class="nxl-item nxl-hasmenu active">
-                        <a href="javascript:void(0);" class="nxl-link">
-                            <span class="nxl-micon"><i class="feather-file-text"></i></span>
-                            <span class="nxl-mtext">Reports</span>
-                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
-                        </a>
-                        <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="clinic_reports.php">View Reports</a></li>
-                        </ul>
-                    </li>
-                    <li class="nxl-item nxl-hasmenu">
-                        <a href="javascript:void(0);" class="nxl-link">
-                            <span class="nxl-micon"><i class="feather-power"></i></span>
-                            <span class="nxl-mtext">Sign out</span>
-                            <span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
-                        </a>
-                        <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="login.html">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <div class="card text-center">
-                    <div class="card-body">
-                        <i class="feather-bar-chart-2 fs-4 text-dark"></i>
-                        <h6 class="mt-4 text-dark fw-bolder">Clinic Admin Panel</h6>
-                        <p class="fs-11 my-3 text-dark">View clinic reports and statistics here.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php include 'partials/sidebar.php'; ?>
 
     <!-- Header -->
     <header class="nxl-header">
@@ -125,7 +113,7 @@
                         <h5 class="m-b-10">Reports</h5>
                     </div>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                         <li class="breadcrumb-item">Reports</li>
                     </ul>
                 </div>
@@ -180,7 +168,29 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="report-card">
-                            <div class="report-header">Inventory Report</div>
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="report-header mb-0">Inventory Report</div>
+                                
+                                <!-- Search and Filter Form -->
+                                <form method="GET" class="d-flex gap-2 align-items-center w-50">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                                        <input type="text" name="search" class="form-control border-start-0 ps-0" placeholder="Search item..." value="<?php echo htmlspecialchars($search); ?>">
+                                    </div>
+                                    <select name="category" class="form-select form-select-sm w-50" onchange="this.form.submit()">
+                                        <option value="">All Categories</option>
+                                        <?php foreach ($categories as $cat): ?>
+                                            <option value="<?php echo htmlspecialchars($cat); ?>" <?php echo ($category_filter === $cat) ? 'selected' : ''; ?>>
+                                                <?php echo htmlspecialchars($cat); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <?php if (!empty($search) || !empty($category_filter)): ?>
+                                        <a href="report.php" class="btn btn-sm btn-light border" title="Clear Filters"><i class="bi bi-x-circle"></i></a>
+                                    <?php endif; ?>
+                                </form>
+                            </div>
+                            
                             <table class="table report-table">
                                 <thead>
                                     <tr>
@@ -192,10 +202,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td>1</td><td>Rabies Vaccine</td><td>Vaccine</td><td>50</td><td><span class="badge bg-success">In Stock</span></td></tr>
-                                    <tr><td>2</td><td>Deworming Tablets</td><td>Medicine</td><td>120</td><td><span class="badge bg-success">In Stock</span></td></tr>
-                                    <tr><td>3</td><td>Syringes</td><td>Supplies</td><td>200</td><td><span class="badge bg-success">In Stock</span></td></tr>
-                                    <tr><td>4</td><td>Bandages</td><td>Supplies</td><td>15</td><td><span class="badge bg-warning text-dark">Low Stock</span></td></tr>
+                                    <?php if (empty($inventory_items)): ?>
+                                        <tr><td colspan="5" class="text-center py-4 text-muted">No inventory records found.</td></tr>
+                                    <?php else: ?>
+                                        <?php foreach ($inventory_items as $index => $item): ?>
+                                            <tr>
+                                                <td><?php echo $index + 1; ?></td>
+                                                <td class="fw-bold"><?php echo htmlspecialchars($item['item_name']); ?></td>
+                                                <td><span class="badge bg-soft-info text-info"><?php echo htmlspecialchars($item['category']); ?></span></td>
+                                                <td><?php echo htmlspecialchars($item['quantity'] . ' ' . $item['unit']); ?></td>
+                                                <td>
+                                                    <?php 
+                                                    $status = $item['status'];
+                                                    $badge_class = 'bg-success';
+                                                    if ($status === 'Out of Stock') $badge_class = 'bg-danger';
+                                                    if ($status === 'Low Stock') $badge_class = 'bg-warning text-dark';
+                                                    ?>
+                                                    <span class="badge <?php echo $badge_class; ?>"><?php echo htmlspecialchars($status); ?></span>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>

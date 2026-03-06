@@ -1,3 +1,4 @@
+<?php include 'auth_check.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,37 +46,7 @@
 
 <body>
 
-<!-- ================= SIDEBAR ================= -->
-<nav class="nxl-navigation">
-    <div class="navbar-wrapper">
-        <div class="navbar-content">
-            <ul class="nxl-navbar">
-                <li class="nxl-item nxl-caption"><label>Receptionist</label></li>
-
-                <li class="nxl-item">
-                    <a class="nxl-link" href="index.html">
-                        <span class="nxl-micon"><i class="bi bi-house"></i></span>
-                        <span class="nxl-mtext">Dashboard</span>
-                    </a>
-                </li>
-
-                <li class="nxl-item active">
-                    <a class="nxl-link" href="#">
-                        <span class="nxl-micon"><i class="bi bi-calendar-event"></i></span>
-                        <span class="nxl-mtext">Appointments</span>
-                    </a>
-                </li>
-
-                <li class="nxl-item mt-5">
-                    <a class="nxl-link text-danger" href="login.html">
-                        <span class="nxl-micon"><i class="bi bi-power"></i></span>
-                        <span class="nxl-mtext">Logout</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<?php include 'partials/sidebar.php'; ?>
 
 <!-- ================= HEADER ================= -->
 <header class="nxl-header">

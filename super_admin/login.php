@@ -1,3 +1,38 @@
+<?php
+session_start();
+require_once '../config/db.php';
+
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $admin_name = $_POST['admin_name'] ?? '';
+    $password = $_POST['password'] ?? '';
+
+    if (!empty($admin_name) && !empty($password)) {
+        $stmt = $conn->prepare("SELECT id, admin_name, password FROM admin WHERE admin_name = ?");
+        $stmt->bind_param("s", $admin_name);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($admin = $result->fetch_assoc()) {
+            // Check if password is hashed or plain (assuming hashed for security, but checking both for flexibility if it's a new setup)
+            if (password_verify($password, $admin['password']) || $password === $admin['password']) {
+                $_SESSION['admin_id'] = $admin['id'];
+                $_SESSION['admin_name'] = $admin['admin_name'];
+                header("Location: dashboard.php");
+                exit();
+            } else {
+                $error = "Invalid password.";
+            }
+        } else {
+            $error = "Administrator not found.";
+        }
+        $stmt->close();
+    } else {
+        $error = "Please enter both name and password.";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +53,7 @@
         .btn-dark-admin:hover { background-color: #000; }
         .register-footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; font-size: 0.85rem; }
         .register-footer a { color: var(--admin-dark); font-weight: 700; text-decoration: none; }
+        .alert-error { background-color: #fff5f5; border: 1px solid #feb2b2; color: #c53030; padding: 10px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 20px; text-align: center; }
     </style>
 </head>
 <body>
@@ -27,22 +63,30 @@
             <h4 class="fw-bold mb-1">Super Admin Access</h4>
             <p class="text-muted small">Secure Network Console</p>
         </div>
-        <form action="index_superadmin.html" method="GET">
+
+        <?php if ($error): ?>
+            <div class="alert-error">
+                <i data-feather="alert-circle" style="width: 14px; height: 14px; margin-right: 5px;"></i>
+                <?php echo $error; ?>
+            </div>
+        <?php endif; ?>
+
+        <form action="" method="POST">
             <div class="mb-3">
-                <label class="form-label">Administrator Email</label>
-                <input type="email" class="form-control" placeholder="admin@vet.com" required>
+                <label class="form-label">Administrator Name</label>
+                <input type="text" name="admin_name" class="form-control" placeholder="Admin Name" required>
             </div>
             <div class="mb-3">
                 <label class="form-label">Secure Password</label>
-                <input type="password" class="form-control" placeholder="••••••••" required>
+                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
             </div>
             <div class="form-check mb-4 mt-3">
                 <input class="form-check-input" type="checkbox" id="rememberMe">
-                <a href="forgot-password.html" class="forgot-link">Forgot Password?</a>
+                <label class="form-check-label small text-muted" for="rememberMe">Remember Session</label>
             </div>
             <button type="submit" class="btn btn-dark-admin shadow-sm">Login to Dashboard</button>
         </form>
-        <div class="register-footer"><a href="register.html">Apply for New Clinic Registration</a></div>
+        <div class="register-footer"><a href="../register.php">Apply for New Clinic Registration</a></div>
     </div>
     <script>feather.replace();</script>
 </body>

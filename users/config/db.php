@@ -1,12 +1,12 @@
 <?php
 $host = "localhost";
-$db   = "my_pets";  // Database name
-$user = "root";     // Your MySQL username
-$pass = "";         // Your MySQL password
+$db   = "vetclinic_db";  // Database name
+$user = "root";          // Your MySQL username
+$pass = "";              // Your MySQL password
 
-$mysqli = new mysqli($host, $user, $pass, $db);
+$conn = new mysqli($host, $user, $pass, $db);
 
-if ($mysqli->connect_error) {
-    die("Connection failed: " . $mysqli->connect_error);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 ?>
